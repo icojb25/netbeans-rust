@@ -1,6 +1,5 @@
 package com.gramrco.lexer;
 
-import org.netbeans.api.lexer.Language;
 import org.netbeans.api.lexer.TokenId;
 
 /**
@@ -10,11 +9,10 @@ import org.netbeans.api.lexer.TokenId;
 public class RustTokenId implements TokenId
 {
 
-    private static final Language<RustTokenId> language = new RustLanguageHierarchy().language();
     private final String name;
     private final String primaryCategory;
     private final int id;
-
+    
     public RustTokenId(String name, String primaryCategory, int id)
     {
         this.name = name;
@@ -38,10 +36,5 @@ public class RustTokenId implements TokenId
     public String name()
     {
         return name;
-    }
-
-    public static final Language<RustTokenId> getLanguage()
-    {
-        return language;
     }
 }

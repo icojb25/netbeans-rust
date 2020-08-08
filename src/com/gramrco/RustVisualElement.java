@@ -15,7 +15,7 @@ import org.openide.windows.TopComponent;
 @MultiViewElement.Registration(
         displayName = "#LBL_Rust_VISUAL",
         iconBase = "com/gramrco/rust-icon-16x16.gif",
-        mimeType = "text/x-rs",
+        mimeType = RustLanguage.MIME_TYPE,
         persistenceType = TopComponent.PERSISTENCE_NEVER,
         preferredID = "RustVisual",
         position = 2000

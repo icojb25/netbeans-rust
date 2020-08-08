@@ -12,7 +12,6 @@ import org.netbeans.spi.lexer.LexerInput;
  */
 public class AntlrCharStream implements CharStream
 {
-
     private int line = 1;
     private int charPositionInLine = 0;
     private LexerInput input;
@@ -22,40 +21,13 @@ public class AntlrCharStream implements CharStream
     private int markDepth = 0;
     private int lastMarker;
 
-    public AntlrCharStream(LexerInput input, String name)
+    private boolean ignoreCase = false;
+
+    public AntlrCharStream(LexerInput input, String name, boolean ignoreCase)
     {
         this.input = input;
         this.name = name;
-    }
-
-    public String substring(int start, int stop)
-    {
-        throw new UnsupportedOperationException("Not supported yet.");
-    }
-
-    public int LT(int i)
-    {
-        return LA(i);
-    }
-
-    public int getLine()
-    {
-        return line;
-    }
-
-    public void setLine(int line)
-    {
-        this.line = line;
-    }
-
-    public void setCharPositionInLine(int pos)
-    {
-        this.charPositionInLine = pos;
-    }
-
-    public int getCharPositionInLine()
-    {
-        return charPositionInLine;
+        this.ignoreCase = ignoreCase;
     }
 
     @Override
@@ -86,7 +58,14 @@ public class AntlrCharStream implements CharStream
             c = read();
         }
         backup(i);
-        return c;
+
+        if (ignoreCase && (c != -1))
+        {
+            return Character.toLowerCase((char) c);
+        } else
+        {
+            return c;
+        }
     }
 
     @Override
@@ -105,7 +84,7 @@ public class AntlrCharStream implements CharStream
             markers.add(state);
         } else
         {
-            state = (CharStreamState) markers.get(markDepth);
+            state = markers.get(markDepth);
         }
         state.index = index;
         state.line = line;
@@ -113,21 +92,6 @@ public class AntlrCharStream implements CharStream
         lastMarker = markDepth;
 
         return markDepth;
-    }
-
-    public void rewind()
-    {
-        rewind(lastMarker);
-    }
-
-    public void rewind(int marker)
-    {
-        CharStreamState state = (CharStreamState) markers.get(marker);
-        // restore stream state
-        seek(state.index);
-        line = state.line;
-        charPositionInLine = state.charPositionInLine;
-        release(marker);
     }
 
     @Override
@@ -184,22 +148,22 @@ public class AntlrCharStream implements CharStream
 
         return result;
     }
+    
+    @Override
+    public String getText(Interval intrvl)
+    {
+        return input.readText(intrvl.a, intrvl.b).toString();
+    }
 
     private void backup(int count)
     {
         input.backup(count);
     }
-
-    @Override
-    public String getText(Interval intrvl)
-    {
-        throw new UnsupportedOperationException("Not supported.");
-    }
-
+    
     private class CharStreamState
     {
         int index;
         int line;
         int charPositionInLine;
-    }
+    }    
 }

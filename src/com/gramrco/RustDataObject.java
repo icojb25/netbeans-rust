@@ -22,14 +22,14 @@ import org.openide.windows.TopComponent;
 })
 @MIMEResolver.ExtensionRegistration(
         displayName = "#LBL_Rust_LOADER",
-        mimeType = "text/x-rs",
+        mimeType = RustLanguage.MIME_TYPE,
         extension =
         {
             "rs", "RS", "Rs"
         }
 )
 @DataObject.Registration(
-        mimeType = "text/x-rs",
+        mimeType = RustLanguage.MIME_TYPE,
         iconBase = "com/gramrco/rust-icon-16x16.gif",
         displayName = "#LBL_Rust_LOADER",
         position = 300
@@ -93,7 +93,7 @@ public class RustDataObject extends MultiDataObject
     public RustDataObject(FileObject pf, MultiFileLoader loader) throws DataObjectExistsException, IOException
     {
         super(pf, loader);
-        registerEditor("text/x-rs", true);
+        registerEditor(RustLanguage.MIME_TYPE, true);
     }
 
     @Override
@@ -105,7 +105,7 @@ public class RustDataObject extends MultiDataObject
     @MultiViewElement.Registration(
             displayName = "#LBL_Rust_EDITOR",
             iconBase = "com/gramrco/rust-icon-16x16.gif",
-            mimeType = "text/x-rs",
+            mimeType = RustLanguage.MIME_TYPE,
             persistenceType = TopComponent.PERSISTENCE_ONLY_OPENED,
             preferredID = "Rust",
             position = 1000

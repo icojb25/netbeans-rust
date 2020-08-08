@@ -14,11 +14,11 @@ import org.netbeans.modules.parsing.spi.SourceModificationEvent;
  *
  * @author jonathan.bergh
  */
-public class RustParser extends Parser
+public class NBRustParser extends Parser
 {
 
     private Snapshot snapshot;
-    private com.gramrco.antlrlexer.RustParser oracleParser;
+    private com.gramrco.antlrlexer.RustParser rustParser;
 
     @Override
     public void parse(Snapshot snapshot, Task task, SourceModificationEvent event)
@@ -27,10 +27,11 @@ public class RustParser extends Parser
         ANTLRInputStream input = new ANTLRInputStream(snapshot.getText().toString());
         Lexer lexer = new com.gramrco.antlrlexer.RustLexer(input);
         CommonTokenStream tokens = new CommonTokenStream(lexer);
-        oracleParser = new com.gramrco.antlrlexer.RustParser(tokens);
+        rustParser = new com.gramrco.antlrlexer.RustParser(tokens);
+        
         try
         {
-//            oracleParser.prog();
+//            rustParser.prog();
         } catch (Exception ex)
         {
             ex.printStackTrace();
@@ -40,7 +41,7 @@ public class RustParser extends Parser
     @Override
     public Result getResult(Task task)
     {
-        return new SqlEditorParserResult(snapshot, oracleParser);
+        return new RustEditorParserResult(snapshot, rustParser);
     }
 
     @Override
@@ -58,26 +59,26 @@ public class RustParser extends Parser
     {
     }
 
-    public static class SqlEditorParserResult extends Result
+    public static class RustEditorParserResult extends Result
     {
 
-        private final com.gramrco.antlrlexer.RustParser sqlParser;
+        private final com.gramrco.antlrlexer.RustParser rustParser;
         private boolean valid = true;
 
-        SqlEditorParserResult(Snapshot snapshot, com.gramrco.antlrlexer.RustParser oracleParser)
+        RustEditorParserResult(Snapshot snapshot, com.gramrco.antlrlexer.RustParser rustParser)
         {
             super(snapshot);
-            this.sqlParser = oracleParser;
+            this.rustParser = rustParser;
         }
 
-        public com.gramrco.antlrlexer.RustParser getSqlParser()
+        public com.gramrco.antlrlexer.RustParser getRustParser()
                 throws ParseException
         {
             if (!valid)
             {
                 throw new ParseException();
             }
-            return sqlParser;
+            return rustParser;
         }
 
         @Override

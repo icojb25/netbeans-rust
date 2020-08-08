@@ -4,11 +4,8 @@
     <folder name="Editors">
         <folder name="text">
             <folder name="x-rs">
+                <attr name="displayName" bundlevalue="com.gramrco.Bundle#Editors/text/x-rs"/>
                 <attr name="SystemFileSystem.localizingBundle" stringvalue="com.gramrco.Bundle"/>
-                <file name="language.instance">
-                    <attr name="instanceCreate" methodvalue="com.gramrco.lexer.RustTokenId.getLanguage"/>
-                    <attr name="instanceOf" stringvalue="org.netbeans.api.lexer.Language"/>
-                </file>
                 <folder name="FontsColors">
                     <folder name="NetBeans">
                         <folder name="Defaults">
